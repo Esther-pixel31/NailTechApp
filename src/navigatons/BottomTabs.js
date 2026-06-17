@@ -36,6 +36,14 @@ function ProfileScreen() {
   );
 }
 
+function ServiceScreen() {
+  return (
+    <View style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
+      <Text>Services</Text>
+    </View>
+  );
+}
+
 export default function BottomTabs() {
   return (
     <NavigationContainer>
@@ -44,6 +52,7 @@ export default function BottomTabs() {
         <Tab.Screen name="Bookings" component={BookingsScreen} />
         <Tab.Screen name="Messages" component={MessagesScreen} />
         <Tab.Screen name="Profile" component={ProfileScreen} />
+        <Tab.Screen name="Services" component={ProfileScreen} />
       </Tab.Navigator>
     </NavigationContainer>
   );

@@ -1,16 +1,33 @@
 import { View, Text, Image, ScrollView, TouchableOpacity, TextInput } from "react-native";
 import { useState } from "react";
+import { router } from "expo-router";
+import { SafeAreaView } from "react-native-safe-area-context";
 
 export default function Profile() {
   const [mode, setMode] = useState("client");
+  const [services, setServices] = useState([
+                { id: "1", name: "Acrylic Nails", price: "25" },
+                { id: "2", name: "Gel Nails", price: "20" }
+                ]);
+
+                const addService = () => {
+                setServices([
+                    ...services,
+                    { id: Date.now().toString(), name: "New Service", price: "0" }
+                ]);
+                };
+
 
   return (
-    <ScrollView style={{ flex: 1, backgroundColor: "#fff", padding: 16 }}>
-
-      <Text style={{ fontSize: 22, fontWeight: "600" }}>
-        Profile
-      </Text>
-
+    <SafeAreaView style={{ flex: 1, backgroundColor: "#fff" }}>
+  
+    <ScrollView
+        contentContainerStyle={{
+        paddingHorizontal: 16,
+        paddingTop: 30,
+        paddingBottom: 30
+        }}
+    >
       {/* MODE SWITCH */}
       <View style={{ flexDirection: "row", marginTop: 12 }}>
         <TouchableOpacity
@@ -68,7 +85,7 @@ export default function Profile() {
       {/* TECH VIEW */}
       {mode === "tech" && (
         <View style={{ marginTop: 20 }}>
-
+            
           {/* BASIC INFO */}
           <Text style={{ fontWeight: "600" }}>Business Info</Text>
 
@@ -87,15 +104,41 @@ export default function Profile() {
           {/* SERVICES */}
           <Text style={{ fontWeight: "600", marginTop: 20 }}>Services</Text>
 
-          <View style={{ padding: 12, borderWidth: 1, borderColor: "#eee", marginTop: 10 }}>
-            <Text>Acrylic Nails - $25</Text>
-            <Text>Includes shaping and polish</Text>
-          </View>
+            <TouchableOpacity
+            onPress={addService}
+            style={{
+                padding: 10,
+                backgroundColor: "#000",
+                marginTop: 10,
+                borderRadius: 8
+            }}
+            >
+            <Text style={{ color: "#fff", textAlign: "center" }}>
+                Add Service
+            </Text>
+            </TouchableOpacity>
 
-          <View style={{ padding: 12, borderWidth: 1, borderColor: "#eee", marginTop: 10 }}>
-            <Text>Gel Nails - $20</Text>
-            <Text>Long lasting finish</Text>
-          </View>
+            {services.map((item) => (
+            <View
+                key={item.id}
+                style={{
+                padding: 12,
+                borderWidth: 1,
+                borderColor: "#eee",
+                marginTop: 10
+                }}
+            >
+                <Text>{item.name}</Text>
+                <Text>KES {item.price}</Text>
+            </View>
+            ))}
+            <TouchableOpacity
+                onPress={() => router.push("/services")}
+                >
+                <Text>
+                    Manage Services
+                </Text>
+                </TouchableOpacity>
 
           {/* PROMOTIONS */}
           <Text style={{ fontWeight: "600", marginTop: 20 }}>Promotions</Text>
@@ -124,5 +167,7 @@ export default function Profile() {
       )}
 
     </ScrollView>
+
+    </SafeAreaView>
   );
 }

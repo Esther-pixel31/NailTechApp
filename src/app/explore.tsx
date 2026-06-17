@@ -1,12 +1,21 @@
 import { View, Text, StyleSheet, TouchableOpacity } from "react-native";
 import { Calendar } from "react-native-calendars";
 import { useState } from "react";
+import { SafeAreaView } from "react-native-safe-area-context";
 
 export default function Bookings() {
   const [selectedDate, setSelectedDate] = useState("");
 
   return (
-    <View style={styles.container}>
+    
+    <SafeAreaView
+      style={{
+        flex: 1,
+        backgroundColor: "#fff",
+        paddingTop: 30,
+        paddingHorizontal: 16
+      }}
+    >
       
       <Text style={styles.title}>Choose Booking Date</Text>
 
@@ -40,7 +49,7 @@ export default function Bookings() {
         <Text style={styles.bookText}>Confirm Booking</Text>
       </TouchableOpacity>
 
-    </View>
+    </SafeAreaView>
   );
 }
 

@@ -7,6 +7,7 @@ import {
   ScrollView,
   TouchableOpacity
 } from "react-native";
+import { SafeAreaView } from "react-native-safe-area-context";
 
 const categories = [
   { id: "1", name: "Hair", icon: "💇" },
@@ -48,27 +49,16 @@ const offers = [
 
 export default function Home() {
   return (
+    
     <ScrollView
-      style={{ flex: 1, backgroundColor: "#fff" }}
-      contentContainerStyle={{ padding: 16 }}
+      contentContainerStyle={{
+        paddingHorizontal: 16,
+        paddingTop: 30,
+        paddingBottom: 30
+      }}
     >
-      {/* TOP BAR */}
-      <View
-        style={{
-          flexDirection: "row",
-          justifyContent: "space-between",
-          alignItems: "center"
-        }}
-      >
-        {/* nav icon top left */}
-        <Text style={{ fontSize: 22 }}>☰</Text>
-
-        {/* profile image top right */}
-        <Image
-          source={{ uri: "https://via.placeholder.com/40" }}
-          style={{ width: 40, height: 40, borderRadius: 20 }}
-        />
-      </View>
+     <SafeAreaView style={{ flex: 3 }}> 
+  
 
       {/* GREETING */}
       <Text style={{ fontSize: 18, marginTop: 12 }}>
@@ -111,6 +101,7 @@ export default function Home() {
           </View>
         ))}
       </ScrollView>
+      </SafeAreaView>
 
       {/* FEATURED */}
       <Text style={{ marginTop: 20, fontSize: 16, fontWeight: "600" }}>
