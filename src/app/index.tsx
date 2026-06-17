@@ -1,98 +1,181 @@
-import * as Device from 'expo-device';
-import { Platform, StyleSheet } from 'react-native';
-import { SafeAreaView } from 'react-native-safe-area-context';
+import {
+  View,
+  Text,
+  Image,
+  TextInput,
+  FlatList,
+  ScrollView,
+  TouchableOpacity
+} from "react-native";
 
-import { AnimatedIcon } from '@/components/animated-icon';
-import { HintRow } from '@/components/hint-row';
-import { ThemedText } from '@/components/themed-text';
-import { ThemedView } from '@/components/themed-view';
-import { WebBadge } from '@/components/web-badge';
-import { BottomTabInset, MaxContentWidth, Spacing } from '@/constants/theme';
+const categories = [
+  { id: "1", name: "Hair", icon: "💇" },
+  { id: "2", name: "Lashes", icon: "👁️" },
+  { id: "3", name: "Makeup", icon: "💄" },
+  { id: "4", name: "Massage", icon: "💆" },
+  { id: "5", name: "Nails", icon: "💅" }
+];
 
-function getDevMenuHint() {
-  if (Platform.OS === 'web') {
-    return <ThemedText type="small">use browser devtools</ThemedText>;
+const professionals = [
+  {
+    id: "1",
+    name: "Lena Nails",
+    rating: 4.8,
+    location: "Nairobi",
+    profession: "Nails"
+  },
+  {
+    id: "2",
+    name: "Glow Studio",
+    rating: 4.6,
+    location: "Westlands",
+    profession: "Makeup"
   }
-  if (Device.isDevice) {
-    return (
-      <ThemedText type="small">
-        shake device or press <ThemedText type="code">m</ThemedText> in terminal
-      </ThemedText>
-    );
+];
+
+const offers = [
+  {
+    id: "1",
+    title: "20% off Acrylic Nails",
+    name: "Lena Nails"
+  },
+  {
+    id: "2",
+    title: "Free lashes refill",
+    name: "Glow Studio"
   }
-  const shortcut = Platform.OS === 'android' ? 'cmd+m (or ctrl+m)' : 'cmd+d';
+];
+
+export default function Home() {
   return (
-    <ThemedText type="small">
-      press <ThemedText type="code">{shortcut}</ThemedText>
-    </ThemedText>
+    <ScrollView
+      style={{ flex: 1, backgroundColor: "#fff" }}
+      contentContainerStyle={{ padding: 16 }}
+    >
+      {/* TOP BAR */}
+      <View
+        style={{
+          flexDirection: "row",
+          justifyContent: "space-between",
+          alignItems: "center"
+        }}
+      >
+        {/* nav icon top left */}
+        <Text style={{ fontSize: 22 }}>☰</Text>
+
+        {/* profile image top right */}
+        <Image
+          source={{ uri: "https://via.placeholder.com/40" }}
+          style={{ width: 40, height: 40, borderRadius: 20 }}
+        />
+      </View>
+
+      {/* GREETING */}
+      <Text style={{ fontSize: 18, marginTop: 12 }}>
+        Hi, User
+      </Text>
+
+      <Text style={{ fontSize: 22, marginTop: 8, fontWeight: "600" }}>
+        Find Your Beauty Professional
+      </Text>
+
+      {/* SEARCH */}
+      <TextInput
+        placeholder="Search services or professionals"
+        style={{
+          marginTop: 12,
+          padding: 12,
+          borderWidth: 1,
+          borderColor: "#ddd",
+          borderRadius: 8
+        }}
+      />
+
+      {/* CATEGORIES */}
+      <Text style={{ marginTop: 20, fontSize: 16, fontWeight: "600" }}>
+        Categories
+      </Text>
+
+      <ScrollView horizontal showsHorizontalScrollIndicator={false}>
+        {categories.map((item) => (
+          <View
+            key={item.id}
+            style={{
+              padding: 12,
+              marginRight: 10,
+              alignItems: "center"
+            }}
+          >
+            <Text style={{ fontSize: 22 }}>{item.icon}</Text>
+            <Text>{item.name}</Text>
+          </View>
+        ))}
+      </ScrollView>
+
+      {/* FEATURED */}
+      <Text style={{ marginTop: 20, fontSize: 16, fontWeight: "600" }}>
+        Featured Professionals
+      </Text>
+
+      <FlatList
+        horizontal
+        data={professionals}
+        keyExtractor={(item) => item.id}
+        showsHorizontalScrollIndicator={false}
+        renderItem={({ item }) => (
+          <View
+            style={{
+              width: 180,
+              marginRight: 12,
+              borderWidth: 1,
+              borderColor: "#eee",
+              borderRadius: 10,
+              padding: 10
+            }}
+          >
+            <Image
+              source={{ uri: "https://via.placeholder.com/100" }}
+              style={{ width: "100%", height: 100, borderRadius: 10 }}
+            />
+
+            <Text style={{ fontWeight: "600", marginTop: 8 }}>
+              {item.name}
+            </Text>
+
+            <Text>⭐ {item.rating}</Text>
+            <Text>{item.location}</Text>
+            <Text>{item.profession}</Text>
+          </View>
+        )}
+      />
+
+      {/* OFFERS (HORIZONTAL) */}
+      <Text style={{ marginTop: 20, fontSize: 16, fontWeight: "600" }}>
+        Offers
+      </Text>
+
+      <ScrollView horizontal showsHorizontalScrollIndicator={false}>
+        {offers.map((item) => (
+          <View
+            key={item.id}
+            style={{
+              width: 200,
+              padding: 12,
+              borderWidth: 1,
+              borderColor: "#eee",
+              borderRadius: 10,
+              marginRight: 10
+            }}
+          >
+            <Text style={{ fontWeight: "600" }}>
+              {item.title}
+            </Text>
+            <Text>{item.name}</Text>
+          </View>
+        ))}
+      </ScrollView>
+
+      <View style={{ height: 30 }} />
+    </ScrollView>
   );
 }
-
-export default function HomeScreen() {
-  return (
-    <ThemedView style={styles.container}>
-      <SafeAreaView style={styles.safeArea}>
-        <ThemedView style={styles.heroSection}>
-          <AnimatedIcon />
-          <ThemedText type="title" style={styles.title}>
-            Welcome to&nbsp;Expo
-          </ThemedText>
-        </ThemedView>
-
-        <ThemedText type="code" style={styles.code}>
-          get started
-        </ThemedText>
-
-        <ThemedView type="backgroundElement" style={styles.stepContainer}>
-          <HintRow
-            title="Try editing"
-            hint={<ThemedText type="code">src/app/index.tsx</ThemedText>}
-          />
-          <HintRow title="Dev tools" hint={getDevMenuHint()} />
-          <HintRow
-            title="Fresh start"
-            hint={<ThemedText type="code">npm run reset-project</ThemedText>}
-          />
-        </ThemedView>
-
-        {Platform.OS === 'web' && <WebBadge />}
-      </SafeAreaView>
-    </ThemedView>
-  );
-}
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    justifyContent: 'center',
-    flexDirection: 'row',
-  },
-  safeArea: {
-    flex: 1,
-    paddingHorizontal: Spacing.four,
-    alignItems: 'center',
-    gap: Spacing.three,
-    paddingBottom: BottomTabInset + Spacing.three,
-    maxWidth: MaxContentWidth,
-  },
-  heroSection: {
-    alignItems: 'center',
-    justifyContent: 'center',
-    flex: 1,
-    paddingHorizontal: Spacing.four,
-    gap: Spacing.four,
-  },
-  title: {
-    textAlign: 'center',
-  },
-  code: {
-    textTransform: 'uppercase',
-  },
-  stepContainer: {
-    gap: Spacing.three,
-    alignSelf: 'stretch',
-    paddingHorizontal: Spacing.three,
-    paddingVertical: Spacing.four,
-    borderRadius: Spacing.four,
-  },
-});
